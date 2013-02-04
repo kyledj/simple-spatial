@@ -10,34 +10,43 @@
     <repositories>
         <repository>
             <id>apache-lucene</id>
-            <url>https://repository.apache.org/snapshots/</url>
+            <url>https://repository.apache.org/public/</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>http://repo1.maven.org/maven2</url>
         </repository>
     </repositories>
   <dependencies>
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-core</artifactId>
-        <version>4.1-SNAPSHOT</version>
+        <version>4.1.0</version>
     </dependency>
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-spatial</artifactId>
-        <version>4.1-SNAPSHOT</version>
+        <version>4.1.0</version>
     </dependency>
       <dependency>
           <groupId>org.apache.lucene</groupId>
           <artifactId>lucene-misc</artifactId>
-          <version>4.1-SNAPSHOT</version>
+          <version>4.1.0</version>
       </dependency>
       <dependency>
           <groupId>org.apache.lucene</groupId>
           <artifactId>lucene-analyzers-common</artifactId>
-          <version>4.1-SNAPSHOT</version>
+          <version>4.1.0</version>
       </dependency>
       <dependency>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
           <version>13.0</version>
+      </dependency>
+      <dependency>
+          <groupId>com.yammer.dropwizard</groupId>
+          <artifactId>dropwizard-core</artifactId>
+          <version>0.6.1</version>
       </dependency>
       <dependency>
       <groupId>junit</groupId>

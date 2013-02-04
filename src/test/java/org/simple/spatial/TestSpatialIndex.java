@@ -8,6 +8,8 @@ import org.apache.lucene.store.RAMDirectory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.simple.spatial.index.SpatialIndex;
+import org.simple.spatial.model.Result;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,9 +23,6 @@ public class TestSpatialIndex {
 
     @Before
     public void setUp() throws IOException {
-        Logger root = Logger.getRootLogger();
-        Appender adp = new ConsoleAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN));
-        root.addAppender(adp);
         ndx = SpatialIndex.newBuilder().setDirectory(new RAMDirectory()).build();
         addTestDocs(ndx);
     }
@@ -49,7 +48,7 @@ public class TestSpatialIndex {
     public void TestFindOne() throws IOException {
         List<Result> results = ndx.radiusQuery(-121.693153, 45.373252, 1.0);
         assertEquals(1, results.size());
-        assertEquals("Mount Hood", results.get(0).getText());
+        assertEquals("Mount Hood", results.get(0).getName());
     }
 
     @Test

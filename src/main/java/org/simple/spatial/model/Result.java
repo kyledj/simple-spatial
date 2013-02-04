@@ -1,20 +1,20 @@
-package org.simple.spatial;
+package org.simple.spatial.model;
 
 import com.spatial4j.core.shape.Point;
 
 public class Result {
     private final String id;
-    private final String text;
+    private final String name;
     private final Point location;
 
-    public Result(String id, String text, Point location) {
+    public Result(String id, String name, Point location) {
         this.id = id;
-        this.text = text;
+        this.name = name;
         this.location = location;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
     public Double getLat() {

@@ -1,4 +1,4 @@
-package org.simple.spatial;
+package org.simple.spatial.index;
 
 import com.google.common.collect.Lists;
 import com.spatial4j.core.context.SpatialContext;
@@ -21,6 +21,7 @@ import org.apache.lucene.spatial.query.SpatialOperation;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
+import org.simple.spatial.model.Result;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.UUID;
  * Simple encapusulation of a RAMDirectory storage of documents with
  * a single text field, lat and long coordinates
  */
-public class SpatialIndex {
+public class SpatialIndex implements QueryIndex {
 
     private static final Version INDEX_VERSION = Version.LUCENE_41;
     private static final SpatialContext CTX = SpatialContext.GEO;
@@ -69,10 +70,10 @@ public class SpatialIndex {
         // Use a random UUID for an id
         String newId = UUID.randomUUID().toString();
         doc.add(new StringField("id", newId, Field.Store.YES));
-        doc.add(new StringField("text", text, Field.Store.YES));
+        doc.add(new StringField("name", text, Field.Store.YES));
         doc.add(new StringField("lat", lat.toString(), Field.Store.YES));
         doc.add(new StringField("lon", lon.toString(), Field.Store.YES));
-        // Will only be one at this juncture, but strategy creates multiple fields by default
+
         for (IndexableField field: strategy.createIndexableFields(newPoint)) {
             doc.add(field);
         }
@@ -135,7 +136,7 @@ public class SpatialIndex {
     private static Result docToResult(Document doc) {
         return new Result(
                doc.get("id"),
-               doc.get("text"),
+               doc.get("name"),
                SpatialContext.GEO.makePoint(
                        Double.parseDouble(doc.get("lat")),
                        Double.parseDouble(doc.get("lon"))
@@ -150,12 +151,12 @@ public class SpatialIndex {
         private Builder() { }
 
         public Builder setSpatialStrategy(SpatialStrategy strategy) {
-            strategy = strategy;
+            this.strategy = strategy;
             return this;
         }
 
         public Builder setDirectory(Directory directory) {
-            directory = directory;
+            this.directory = directory;
             return this;
         }
 
@@ -166,6 +167,7 @@ public class SpatialIndex {
             SpatialStrategy thisStrat = strategy;
             Directory thisDir = directory;
 
+            // Use a GeohashPrefixTree strategy by default
             if (null == strategy) {
                 // 11 max levels gives sub-meter granularity
                 SpatialPrefixTree grid = new GeohashPrefixTree(CTX, 11);
