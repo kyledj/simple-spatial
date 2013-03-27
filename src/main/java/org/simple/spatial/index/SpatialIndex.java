@@ -60,7 +60,14 @@ public class SpatialIndex implements QueryIndex {
         closed = false;
     }
 
-    public void addDocument(String text, Double lat, Double lon) throws IOException {
+    /***
+     * Add a document to the index
+     * @param name Name for this location
+     * @param lat
+     * @param lon
+     * @throws IOException
+     */
+    public void addDocument(String name, Double lat, Double lon) throws IOException {
         if (closed) {
             throw new IllegalStateException("Index has been closed");
         }
@@ -70,7 +77,7 @@ public class SpatialIndex implements QueryIndex {
         // Use a random UUID for an id
         String newId = UUID.randomUUID().toString();
         doc.add(new StringField("id", newId, Field.Store.YES));
-        doc.add(new StringField("name", text, Field.Store.YES));
+        doc.add(new StringField("name", name, Field.Store.YES));
         doc.add(new StringField("lat", lat.toString(), Field.Store.YES));
         doc.add(new StringField("lon", lon.toString(), Field.Store.YES));
 
@@ -85,6 +92,7 @@ public class SpatialIndex implements QueryIndex {
         refreshReader();
     }
 
+    @Override
     public List<Result> radiusQuery(Double lat, Double lon, Double radiusKm) throws IOException {
         if (closed) {
             throw new IllegalStateException("Index has been closed");

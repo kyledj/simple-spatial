@@ -1,9 +1,5 @@
 package org.simple.spatial;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.apache.lucene.store.RAMDirectory;
 import org.junit.After;
 import org.junit.Before;
@@ -35,13 +31,13 @@ public class TestSpatialIndex {
 
     @Test
     public void TestCount() throws IOException {
-        assertEquals(4, ndx.count());
+        assertEquals(3, ndx.count());
     }
 
     @Test
     public void TestFindAll() throws IOException {
         List<Result> results = ndx.radiusQuery(-122.681934, 45.525450, 5000.0);
-        assertEquals(4, results.size());
+        assertEquals(3, results.size());
     }
 
     @Test
@@ -52,13 +48,12 @@ public class TestSpatialIndex {
     }
 
     @Test
-    public void TestFindThree() throws IOException {
+    public void TestFindTwo() throws IOException {
         List<Result> results = ndx.radiusQuery(-122.670078, 45.517534, 10.0);
-        assertEquals(3, results.size());
+        assertEquals(2, results.size());
     }
 
     private static void addTestDocs(SpatialIndex ndx) throws IOException {
-        ndx.addDocument("UA", -122.681934, 45.525450);
         ndx.addDocument("Morrisson Bridge", -122.670078, 45.517534);
         ndx.addDocument("Mount Tabor", -122.593861, 45.511760);
         ndx.addDocument("Mount Hood", -121.693153, 45.373252);
